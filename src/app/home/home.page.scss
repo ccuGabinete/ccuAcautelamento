@@ -1,17 +1,18 @@
 .card {
   background: black;
-  padding: 1.5em;
-  height: 240px;
+  height: 280px;
+  margin-left: 4em;
+  margin-right: 4em;
 }
 
 .input {
-  color: turquoise;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 2em;
 }
 
 .button {
   margin-top: 20px;
-  margin-left: 7%;
-  width: 90%;
 }
 
 ion-content {

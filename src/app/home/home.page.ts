@@ -17,7 +17,7 @@ const go = console.log;
 export class HomePage implements OnInit {
 
   currentScreenOrientation: string;
-  card = ((this.platform.height() - 240) / 2).toFixed(2) + 'px';
+  card = ((this.platform.height() - 280) / 2).toFixed(2) + 'px';
 
 
   constructor(
@@ -36,9 +36,9 @@ export class HomePage implements OnInit {
       () => {
         this.currentScreenOrientation = this.screenOrientation.type;
         if (this.currentScreenOrientation === 'landscape-primary') {
-          this.card = ((this.tela.width - 240) / 2).toFixed(0) + 'px';
+          this.card = ((this.tela.width - 280) / 2).toFixed(0) + 'px';
         } else {
-          this.card = ((this.tela.heigth - 240) / 2).toFixed(0) + 'px';
+          this.card = ((this.tela.heigth - 280) / 2).toFixed(0) + 'px';
         }
         document.body.style.setProperty('--my-var', this.card);
       }
@@ -63,6 +63,7 @@ export class HomePage implements OnInit {
         if(!usuario.isValid){
           this.avisoservice.avisoLogin();
         } else {
+          this.usuario = new Usuario();
           this.router.navigate(['/main']);
         }
       }, error => {
