@@ -1,22 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgxMaskIonicModule } from 'ngx-mask-ionic'
 
 import { IonicModule } from '@ionic/angular';
 
-import { MainPageRoutingModule } from './main-routing.module';
+import { ApresentacaoPageRoutingModule } from './apresentacao-routing.module';
 
-import { MainPage } from './main.page';
+import { ApresentacaoPage } from './apresentacao.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MainPageRoutingModule,
-    NgxMaskIonicModule
+    ApresentacaoPageRoutingModule
   ],
-  declarations: [MainPage]
+  declarations: [ApresentacaoPage]
 })
-export class MainPageModule {}
+export class ApresentacaoPageModule {}

@@ -1,0 +1,22 @@
+ion-toolbar {
+  --background: LightSkyBlue;
+  --color: white;
+}
+
+ion-content {
+  --ion-background-color: black;
+  --padding-start: 1em;
+  --padding-end: 1em;
+}
+
+ion-button {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  --background-hover: LightCyan;
+  --background-activated: AliceBlue;
+  --color-hover: red;
+}
+
+ion-label {
+  --color: white;
+}

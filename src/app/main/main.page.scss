@@ -1,0 +1,38 @@
+
+ion-toolbar {
+    --background: LightSkyBlue;
+    --color: white;
+}
+
+ion-content {
+  --ion-background-color: black;
+  --padding-start: 1em;
+  --padding-end: 1em;
+}
+
+ion-input {
+    --color: white;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    font-size: 2em;
+}
+
+ion-select {
+    color: white;
+}
+
+ion-button {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    --background-hover: LightCyan;
+    --background-activated: AliceBlue;
+    --color-hover: red;
+}
+
+.label {
+    --color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2em;
+}
+
+

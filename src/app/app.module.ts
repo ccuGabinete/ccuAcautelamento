@@ -1,3 +1,5 @@
+import { AcaoService } from './services/acao/acao.service';
+import { Acao } from './models/acao/acao';
 import { AvisosService } from './services/avisos/avisos.service';
 import { AcessoService } from './services/acesso/acesso.service';
 import { Usuario } from './models/usuario/usuario';
@@ -18,6 +20,9 @@ import { Tela } from './models/tela/tela';
 import { NgxMaskIonicModule } from 'ngx-mask-ionic'
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { Lacre } from './models/lacre/lacre';
+import { LowerCasePipe, UpperCasePipe } from '@angular/common';
+import { LacreService } from './services/lacre/lacre.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,7 +42,13 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
     TelaService,
     Usuario,
     AcessoService,
-    AvisosService
+    AvisosService,
+    Lacre,
+    LacreService,
+    LowerCasePipe,
+    UpperCasePipe,
+    Acao,
+    AcaoService
   ],
   bootstrap: [AppComponent]
 })

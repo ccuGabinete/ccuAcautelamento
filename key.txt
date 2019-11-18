@@ -1,0 +1,13 @@
+
+keytool -genkey -v -keystore MyApp.keystore -alias MyApp -keyalg RSA -keysize 2048 -validity 10000
+
+Warning:
+keytool -importkeystore -srckeystore app-release-unsigned.keystore -destkeystore app.keystore -deststoretype pkcs12
+
+keytool -genkey -v -keystore app-release-unsigned.keystore -alias acautelamento -keyalg RSA -keysize 2048 -validity 10000
+
+C:\Users\Win10\Documents\ccu\acautelamento\platforms\android\app\build\outputs\apk\release\app-release-unsigned.apk
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore app.keystore app-release-unsigned.apk app
+
+zipalign -v 4 app-release-unsigned.apk acautelamento.apk

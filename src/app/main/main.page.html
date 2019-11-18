@@ -1,9 +1,27 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>main</ion-title>
+    <ion-title>TRIAGEM</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-item>
+    <ion-label class="label" position="floating">Código</ion-label>
+    <ion-input class="fontes" [(ngModel)]=codigo mask='AAAA' (change)='onChangeCodigo()' (ionFocus)=onFocusCodigo()></ion-input>
+  </ion-item>
 
+  <ion-item>
+    <ion-label class="label" position="floating">Lacre</ion-label>
+    <ion-input class="fontes" [(ngModel)]=numero mask='00000000' (change)='onChangeLacre()' (ionFocus)=onFocusLacre()></ion-input>
+  </ion-item>
+
+  <ion-list>
+    <ion-item>
+      <ion-select class="input" placeholder='acões' [(ngModel)]=acaopretendida>
+        <ion-select-option *ngFor="let acao of listaacoes">{{acao}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" fill="outline" (click)=onSubmit() [disabled]=disabled>buscar</ion-button>
 </ion-content>

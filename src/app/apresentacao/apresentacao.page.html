@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>LACRE</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-title style="background: black;">{{acao.acao  | uppercase }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item *ngFor='let l of arraylacres'>
+    <ion-label class="ion-text-wrap">
+      <ion-text color="secondary">
+        <h3 style="margin-bottom: 0.5em;">NÚMERO: {{l.numero}}</h3>
+      </ion-text>
+
+      <ion-text color="success">
+        <p style="margin-bottom: 0.5em;"> PROCESSO: {{l.processo}}</p>
+      </ion-text>
+
+      <ion-text color="warning">
+        <p style="margin-bottom: 0.5em;">POSIÇÃO: {{l.pos}}</p>
+      </ion-text>
+
+      <ion-text color="danger">
+        <p style="margin-bottom: 0.5em;">DATA: {{l.data}}</p>
+      </ion-text>
+    </ion-label>
+
+    <ion-button (click)='onDelete(l.auto)'>
+      <ion-icon name="trash"></ion-icon>
+    </ion-button>
+
+  </ion-item>
+
+  <ion-button expand="block" fill="outline" (click)=onSubmit()>finalisar</ion-button>
+</ion-content>

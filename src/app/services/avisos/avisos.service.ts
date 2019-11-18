@@ -25,5 +25,45 @@ export class AvisosService {
     toast.present();
   }
 
+  async avisoCodigo() {
+    const toast = await this.toastController.create({
+      message: 'Código  inválido',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async avisoCampos() {
+    const toast = await this.toastController.create({
+      message: 'Preencha número e ação',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async avisoLacres() {
+    const toast = await this.toastController.create({
+      message: 'Escolha apenas um lacre',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async avisoLSucesso() {
+    const toast = await this.toastController.create({
+      message: 'Sucesso!!!',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async avisoLInexistente() {
+    const toast = await this.toastController.create({
+      message: 'Lacre não localizado',
+      duration: 2000
+    });
+    toast.present();
+  }
+
 
 }
