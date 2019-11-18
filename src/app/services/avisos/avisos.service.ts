@@ -35,7 +35,7 @@ export class AvisosService {
 
   async avisoCampos() {
     const toast = await this.toastController.create({
-      message: 'Preencha número e ação',
+      message: 'Defina uma ação',
       duration: 2000
     });
     toast.present();

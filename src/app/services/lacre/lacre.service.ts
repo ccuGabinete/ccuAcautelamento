@@ -49,7 +49,7 @@ export class LacreService {
         lacre.auto = linha.auto;
         lacre.data = this.formataservice.gerarData(true);
         // lacre.linha será usado para atualizar o status posteriormente
-        lacre.linha = ln + 1;
+        lacre.linha = linha.linha;
         lacre.pos = linha.pos;
         lacre.processo = linha.processo;
         lacre.trm = linha.trm;

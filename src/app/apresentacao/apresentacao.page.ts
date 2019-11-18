@@ -6,6 +6,7 @@ import { LacreService } from './../services/lacre/lacre.service';
 import { AcaoService } from './../services/acao/acao.service';
 import { Component, OnInit } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
+import { Subscription } from 'rxjs';
 const go = console.log;
 
 @Component({
@@ -16,6 +17,9 @@ const go = console.log;
 export class ApresentacaoPage implements OnInit {
   arraylacres = [];
   arrayOriginal = [];
+  subscriptionAcao: Subscription;
+  subscriptionArrayLaces: Subscription;
+  disabled = false;
   constructor(
     private acaoservice: AcaoService,
     private lacreservice: LacreService,
@@ -27,69 +31,91 @@ export class ApresentacaoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.acaoservice.acaoAtual.subscribe(acao => {
+    this.subscriptionAcao = this.acaoservice.acaoAtual.subscribe(acao => {
       this.acao = acao;
       this.acao.acao = this.uppercasepipe.transform(this.acao.acao);
       switch (this.acao.acao) {
         case 'DOAR':
-          this.acao.status = '04'
+          this.acao.status = '04';
           break;
         case 'DESCARTAR':
-          this.acao.status = '03'
+          this.acao.status = '03';
           break;
         case 'RECEBER':
-          this.acao.status = '01'
+          this.acao.status = '01';
           break;
         case 'CONSULTAR':
           break;
       }
 
-      this.lacreservice.lacresAtuais.subscribe(data => {
+      this.subscriptionArrayLaces = this.lacreservice.lacresAtuais.subscribe(data => {
         this.arrayOriginal = data;
         this.arraylacres = this.lacreservice.converteParaArrayDeLacres(data, this.acao.status, this.acao.codigo);
         this.arraylacres = this.arraylacres.filter(x => x.numero === this.acao.numero);
-      })
+      });
 
-    })
+    });
 
 
   }
 
   onDelete(auto: string) {
+    // tslint:disable-next-line: prefer-const
     let index = this.arraylacres.findIndex(x => x.auto === auto);
     this.arraylacres.splice(index, 1);
   }
 
   onSubmit() {
+    this.disabled = true;
     if (this.arraylacres.length > 1) {
       this.avisoservice.avisoLacres();
     } else {
-      this.lacreservice.lacresAtuais.subscribe(data => {
-        if (this.arraylacres.length > 0) {
-          let response = this.formaraservice.formatarlacre(this.arraylacres[0]).replace(',', '');
-          let rg = new RegExp(this.acao.numero);
-          let lacre = data.filter(function (x) {
-            return rg.test(x.lacre);
-          });
+      // tslint:disable-next-line: prefer-const
+      let arrayAtualizacao = this.arrayOriginal.filter(x => {
+        return x.auto === this.arraylacres[0].auto;
+      });
 
-          let array = lacre[0].lacre.split(',');
-          let regex = new RegExp(this.acao.numero);
+      go(arrayAtualizacao);
 
-          let linhaParaModificar = array.filter(x => regex.test(x));
-          lacre[0].lacre = lacre[0].lacre.replace(linhaParaModificar, response);
-          if (this.acao.acao !== 'CONSULTAR') {
-            this.lacreservice.atualizar(lacre[0]).subscribe(data => {
-              this.lacreservice.atualizarLacres([]);
-              this.avisoservice.avisoLSucesso();
-              this.router.navigate(['/main']);
-            })
-          } else {
-            this.router.navigate(['/main']);
-          }
-        }
+      this.acao.auto = arrayAtualizacao[0].auto;
+
+      // aqui é a linha que representa o que ainda está
+      // sem alteração no DB, a celula lacre
+      let linhaDoLacreAntigo = arrayAtualizacao[0].lacre;
+
+      // aqui vou escontrar apenas o valor antigo do lacre
+      // que será substituído
+      let aux =  arrayAtualizacao[0].lacre.split(',');
+      const rg = new RegExp(this.acao.numero);
+      aux = aux.filter(x => rg.test(x));
+      let lacreAntigoParaSerSubstituido = aux[0];
 
 
-      })
+      // aqui vou definir o lacre que será enviado para atualizar a planilha
+      let lacre = this.formaraservice.formatarlacre(this.arraylacres[0]);
+
+      // aqui o valor que será atualizado
+      let lacreNovoParaSubstituir = lacre.lacre;
+
+      // aqui atualizo o valor do lacre
+      lacre.lacre = linhaDoLacreAntigo.replace(lacreAntigoParaSerSubstituido, lacreNovoParaSubstituir);
+      go(linhaDoLacreAntigo);
+      go(lacre);
+
+      if (this.acao.acao !== 'CONSULTAR') {
+        this.lacreservice.atualizar(lacre).subscribe(() => {
+          this.disabled = false;
+          this.avisoservice.avisoLSucesso();
+          this.router.navigate(['/main']);
+        })
+      } else {
+        this.router.navigate(['/main']);
+      }
     }
+  }
+
+  ionViewWillLeave() {
+    this.subscriptionAcao.unsubscribe();
+    this.subscriptionArrayLaces.unsubscribe();
   }
 }

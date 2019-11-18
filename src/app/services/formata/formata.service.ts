@@ -50,7 +50,8 @@ export class FormataService {
   }
 
   formatarlacre (lacre: Lacre) {
-    return lacre.numero + '(' + lacre.status + ';' + lacre.data + ';' + lacre.codigo + ';' + lacre.grupo + ';' + lacre.quantidade + ';' + lacre.recebedor + '),';
+    lacre.lacre = lacre.numero + '(' + lacre.status + ';' + lacre.data + ';' + lacre.codigo + ';' + lacre.grupo + ';' + lacre.quantidade + ';' + lacre.recebedor + ')';
+    return lacre;
   }
 
   

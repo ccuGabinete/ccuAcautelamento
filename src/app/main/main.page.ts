@@ -40,6 +40,7 @@ export class MainPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.acao = new Acao();
     this.acaoservice.acaoAtual.subscribe(acao => {
       if (acao.codigo !== '') {
         this.codigo = acao.codigo;
@@ -74,25 +75,24 @@ export class MainPage implements OnInit {
   onChangeLacre() {
     this.numero = this.formataservice.colocaZeros(this.numero);
     this.lacreservice.getLacre(this.numero).subscribe(data => {
-      if(data.body.length > 0) {
+      if (data.body.length > 0) {
         this.lacreservice.atualizarLacres(data.body);
         this.disabled = false;
       } else {
         this.avisosservice.avisoLInexistente();
       }
-      
     });
 
     if (this.isvalidcodigo) {
       this.listaacoes = [
         'doar',
         'descartar'
-      ]
+      ];
     } else {
       this.listaacoes = [
         'receber',
         'consultar'
-      ]
+      ];
     }
   }
 
