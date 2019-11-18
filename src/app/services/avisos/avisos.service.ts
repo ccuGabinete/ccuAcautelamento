@@ -65,5 +65,13 @@ export class AvisosService {
     toast.present();
   }
 
+  async avisoSemLacres() {
+    const toast = await this.toastController.create({
+      message: 'Sem lacres para processar',
+      duration: 2000
+    });
+    toast.present();
+  }
+
 
 }

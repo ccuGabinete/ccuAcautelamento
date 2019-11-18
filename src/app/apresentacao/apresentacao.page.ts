@@ -67,47 +67,53 @@ export class ApresentacaoPage implements OnInit {
 
   onSubmit() {
     this.disabled = true;
-    if (this.arraylacres.length > 1) {
-      this.avisoservice.avisoLacres();
-    } else {
-      // tslint:disable-next-line: prefer-const
-      let arrayAtualizacao = this.arrayOriginal.filter(x => {
-        return x.auto === this.arraylacres[0].auto;
-      });
-
-      this.acao.auto = arrayAtualizacao[0].auto;
-
-      // aqui é a linha que representa o que ainda está
-      // sem alteração no DB, a celula lacre
-      let linhaDoLacreAntigo = arrayAtualizacao[0].lacre;
-
-      // aqui vou escontrar apenas o valor antigo do lacre
-      // que será substituído
-      let aux =  arrayAtualizacao[0].lacre.split(',');
-      const rg = new RegExp(this.acao.numero);
-      aux = aux.filter(x => rg.test(x));
-      let lacreAntigoParaSerSubstituido = aux[0];
-
-
-      // aqui vou definir o lacre que será enviado para atualizar a planilha
-      let lacre = this.formaraservice.formatarlacre(this.arraylacres[0]);
-
-      // aqui o valor que será atualizado
-      let lacreNovoParaSubstituir = lacre.lacre;
-
-      // aqui atualizo o valor do lacre
-      lacre.lacre = linhaDoLacreAntigo.replace(lacreAntigoParaSerSubstituido, lacreNovoParaSubstituir);
-
-      if (this.acao.acao !== 'CONSULTAR') {
-        this.lacreservice.atualizar(lacre).subscribe(() => {
-          this.disabled = false;
-          this.avisoservice.avisoLSucesso();
-          this.router.navigate(['/main']);
-        })
+    if (this.arraylacres.length !== 0) {
+      if (this.arraylacres.length > 1) {
+        this.avisoservice.avisoLacres();
       } else {
-        this.router.navigate(['/main']);
+        // tslint:disable-next-line: prefer-const
+        let arrayAtualizacao = this.arrayOriginal.filter(x => {
+          return x.auto === this.arraylacres[0].auto;
+        });
+
+        this.acao.auto = arrayAtualizacao[0].auto;
+
+        // aqui é a linha que representa o que ainda está
+        // sem alteração no DB, a celula lacre
+        let linhaDoLacreAntigo = arrayAtualizacao[0].lacre;
+
+        // aqui vou escontrar apenas o valor antigo do lacre
+        // que será substituído
+        let aux = arrayAtualizacao[0].lacre.split(',');
+        const rg = new RegExp(this.acao.numero);
+        aux = aux.filter(x => rg.test(x));
+        let lacreAntigoParaSerSubstituido = aux[0];
+
+
+        // aqui vou definir o lacre que será enviado para atualizar a planilha
+        let lacre = this.formaraservice.formatarlacre(this.arraylacres[0]);
+
+        // aqui o valor que será atualizado
+        let lacreNovoParaSubstituir = lacre.lacre;
+
+        // aqui atualizo o valor do lacre
+        lacre.lacre = linhaDoLacreAntigo.replace(lacreAntigoParaSerSubstituido, lacreNovoParaSubstituir);
+
+        if (this.acao.acao !== 'CONSULTAR') {
+          this.lacreservice.atualizar(lacre).subscribe(() => {
+            this.disabled = false;
+            this.avisoservice.avisoLSucesso();
+            this.router.navigate(['/main']);
+          })
+        } else {
+          this.router.navigate(['/main']);
+        }
       }
+    } else {
+      this.avisoservice.avisoSemLacres();
+      this.router.navigate(['/main']);
     }
+
   }
 
   ionViewWillLeave() {
