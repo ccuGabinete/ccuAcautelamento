@@ -75,8 +75,6 @@ export class ApresentacaoPage implements OnInit {
         return x.auto === this.arraylacres[0].auto;
       });
 
-      go(arrayAtualizacao);
-
       this.acao.auto = arrayAtualizacao[0].auto;
 
       // aqui é a linha que representa o que ainda está
@@ -99,8 +97,6 @@ export class ApresentacaoPage implements OnInit {
 
       // aqui atualizo o valor do lacre
       lacre.lacre = linhaDoLacreAntigo.replace(lacreAntigoParaSerSubstituido, lacreNovoParaSubstituir);
-      go(linhaDoLacreAntigo);
-      go(lacre);
 
       if (this.acao.acao !== 'CONSULTAR') {
         this.lacreservice.atualizar(lacre).subscribe(() => {
