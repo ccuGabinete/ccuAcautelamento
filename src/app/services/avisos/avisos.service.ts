@@ -52,7 +52,7 @@ export class AvisosService {
   async avisoLSucesso() {
     const toast = await this.toastController.create({
       message: 'Sucesso!!!',
-      duration: 2000
+      duration: 4000
     });
     toast.present();
   }

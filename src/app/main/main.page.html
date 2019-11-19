@@ -24,4 +24,16 @@
   </ion-list>
 
   <ion-button expand="block" fill="outline" (click)=onSubmit() [disabled]=disabled>buscar</ion-button>
+
+  
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>
+      <ion-button class="buttonExit" (click)='onClose()'>
+        <ion-icon  name="exit" class="icon"></ion-icon>
+      </ion-button>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

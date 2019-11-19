@@ -7,6 +7,7 @@ import { AcaoService } from './../services/acao/acao.service';
 import { Component, OnInit } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { LoadingController } from '@ionic/angular';
 const go = console.log;
 
 @Component({
@@ -21,6 +22,7 @@ export class ApresentacaoPage implements OnInit {
   subscriptionArrayLaces: Subscription;
   disabled = false;
   constructor(
+    public loadingController: LoadingController,
     private acaoservice: AcaoService,
     private lacreservice: LacreService,
     private router: Router,
@@ -59,6 +61,20 @@ export class ApresentacaoPage implements OnInit {
 
   }
 
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Processando...',
+      duration: 8000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+
+    this.avisoservice.avisoLSucesso();
+    this.router.navigate(['/main']);
+  }
+
+
   onDelete(auto: string) {
     // tslint:disable-next-line: prefer-const
     let index = this.arraylacres.findIndex(x => x.auto === auto);
@@ -70,6 +86,7 @@ export class ApresentacaoPage implements OnInit {
     if (this.arraylacres.length !== 0) {
       if (this.arraylacres.length > 1) {
         this.avisoservice.avisoLacres();
+        this.disabled = false;
       } else {
         // tslint:disable-next-line: prefer-const
         let arrayAtualizacao = this.arrayOriginal.filter(x => {
@@ -101,9 +118,7 @@ export class ApresentacaoPage implements OnInit {
 
         if (this.acao.acao !== 'CONSULTAR') {
           this.lacreservice.atualizar(lacre).subscribe(() => {
-            this.disabled = false;
-            this.avisoservice.avisoLSucesso();
-            this.router.navigate(['/main']);
+            this.presentLoading();
           })
         } else {
           this.router.navigate(['/main']);
@@ -119,5 +134,6 @@ export class ApresentacaoPage implements OnInit {
   ionViewWillLeave() {
     this.subscriptionAcao.unsubscribe();
     this.subscriptionArrayLaces.unsubscribe();
+    this.disabled = false;
   }
 }

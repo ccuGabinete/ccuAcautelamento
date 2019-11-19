@@ -2,6 +2,7 @@
 ion-toolbar {
     --background: LightSkyBlue;
     --color: white;
+    text-align: center;
 }
 
 ion-content {
@@ -34,5 +35,14 @@ ion-button {
     font-family: 'Courier New', Courier, monospace;
     font-size: 2em;
 }
+
+.icon {
+    font-size: 3em;
+}
+
+.buttonExit {
+    --background: LightSkyBlue;
+}
+
 
 

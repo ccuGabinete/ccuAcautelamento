@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { AcaoService } from './../services/acao/acao.service';
 import { FormataService } from './../services/formata/formata.service';
 import { AvisosService } from './../services/avisos/avisos.service';
@@ -23,6 +24,7 @@ export class MainPage implements OnInit {
   isvalidcodigo = false;
   listaacoes = [];
   disabled = true;
+  subscription: Subscription;
 
   constructor(
     public lacre: Lacre,
@@ -49,6 +51,8 @@ export class MainPage implements OnInit {
     });
 
     this.disabled = true;
+
+    this.lacreservice.atualizarLacres([]);
 
   }
 
@@ -109,22 +113,33 @@ export class MainPage implements OnInit {
 
   onSubmit() {
     if (this.testaCampos()) {
-      if (this.isvalidcodigo) {
-        this.acao.acao = this.acaopretendida;
-        this.acao.codigo = this.codigo;
-        this.acao.numero = this.numero;
-      } else {
-        this.acao.acao = this.acaopretendida;
-        this.acao.codigo = '';
-        this.acao.numero = this.numero;
-      }
+      this.subscription = this.lacreservice.lacresAtuais.subscribe(() => {
+        if (this.isvalidcodigo) {
+          this.acao.acao = this.acaopretendida;
+          this.acao.codigo = this.codigo;
+          this.acao.numero = this.numero;
+        } else {
+          this.acao.acao = this.acaopretendida;
+          this.acao.codigo = '';
+          this.acao.numero = this.numero;
+        }
 
-      this.acaoservice.atualizarAcao(this.acao);
-      this.numero = '';
-      this.codigo = '';
-      this.router.navigate(['/apresentacao']);
+        this.acaoservice.atualizarAcao(this.acao);
+        this.numero = '';
+        this.codigo = '';
+        this.router.navigate(['/apresentacao']);
+      })
+
     } else {
       this.avisosservice.avisoCampos();
     }
+  }
+
+  onClose() {
+    navigator['app'].exitApp();
+  }
+
+  ionViewWillLeave() {
+    this.subscription.unsubscribe();
   }
 }
