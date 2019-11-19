@@ -12,18 +12,18 @@
 
   <ion-item>
     <ion-label class="label" position="floating">Lacre</ion-label>
-    <ion-input class="fontes" [(ngModel)]=numero mask='00000000' (change)='onChangeLacre()' (ionFocus)=onFocusLacre()></ion-input>
+    <ion-input id='numero' class="fontes" [(ngModel)]=numero mask='00000000' (change)='onChangeLacre()' (ionFocus)=onFocusLacre()></ion-input>
   </ion-item>
 
   <ion-list>
     <ion-item>
-      <ion-select class="input" placeholder='acões' [(ngModel)]=acaopretendida>
+      <ion-select class="input" placeholder='acões' [(ngModel)]=acaopretendida (ionblur)=onBlurAcoes()>
         <ion-select-option *ngFor="let acao of listaacoes">{{acao}}</ion-select-option>
       </ion-select>
     </ion-item>
   </ion-list>
 
-  <ion-button expand="block" fill="outline" (click)=onSubmit() [disabled]=disabled>buscar</ion-button>
+  <ion-button id='submit' expand="block" fill="outline" (click)=onSubmit() [disabled]=disabled>buscar</ion-button>
 
   
 </ion-content>
@@ -31,8 +31,8 @@
 <ion-footer>
   <ion-toolbar>
     <ion-title>
-      <ion-button class="buttonExit" (click)='onClose()'>
-        <ion-icon  name="exit" class="icon"></ion-icon>
+      <ion-button class="buttonExit" (click)='onClose()' fill='clear'>
+        <ion-icon  name="close-circle" class="icon"></ion-icon>
       </ion-button>
     </ion-title>
   </ion-toolbar>

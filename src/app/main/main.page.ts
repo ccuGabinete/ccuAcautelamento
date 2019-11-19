@@ -3,12 +3,12 @@ import { AcaoService } from './../services/acao/acao.service';
 import { FormataService } from './../services/formata/formata.service';
 import { AvisosService } from './../services/avisos/avisos.service';
 import { LacreService } from './../services/lacre/lacre.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Lacre } from '../models/lacre/lacre';
 import { LowerCasePipe, UpperCasePipe } from '@angular/common';
 import { Acao } from '../models/acao/acao';
 import { Router } from '@angular/router';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { AlertController } from '@ionic/angular';
 const go = console.log;
 
 @Component({
@@ -34,7 +34,10 @@ export class MainPage implements OnInit {
     private formataservice: FormataService,
     private acaoservice: AcaoService,
     private acao: Acao,
-    private router: Router
+    private router: Router,
+    private renderer: Renderer2,
+    public alertController: AlertController
+
   ) { }
 
   ngOnInit() {
@@ -56,8 +59,29 @@ export class MainPage implements OnInit {
 
   }
 
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      message: '<strong>Deseja encerrar o apliativo?</strong>',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Confirmar',
+          handler: () => {
+            navigator['app'].exitApp();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   onFocusCodigo() {
     this.codigo = '';
+    this.disabled = true;
   }
 
 
@@ -74,6 +98,10 @@ export class MainPage implements OnInit {
   onFocusLacre() {
     this.disabled = true;
     this.numero = '';
+  }
+
+  onBlurLacre() {
+    this.renderer.selectRootElement('#acoes').focus();
   }
 
   onChangeLacre() {
@@ -98,6 +126,10 @@ export class MainPage implements OnInit {
         'consultar'
       ];
     }
+  }
+
+  onBlurAcoes() {
+    this.renderer.selectRootElement('#submit').focus();
   }
 
   testaCampos(): boolean {
@@ -136,7 +168,7 @@ export class MainPage implements OnInit {
   }
 
   onClose() {
-    navigator['app'].exitApp();
+    this.presentAlertConfirm();
   }
 
   ionViewWillLeave() {
