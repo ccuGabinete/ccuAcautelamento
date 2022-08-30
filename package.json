@@ -28,7 +28,7 @@
     "cordova-plugin-screen-orientation": "^3.0.2",
     "core-js": "^2.5.4",
     "es6-promise-plugin": "^4.2.2",
-    "moment-timezone": "^0.5.27",
+    "moment-timezone": "^0.5.35",
     "ngx-mask-ionic": "^1.1.2",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
